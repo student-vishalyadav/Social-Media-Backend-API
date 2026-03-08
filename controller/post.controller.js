@@ -78,26 +78,25 @@ exports.deletePost = async (req, res) => {
 
 exports.likePost = async (req, res) => {
 
-  // post id url se milegi
   const postId = req.params.id;
 
-  // login user ki id middleware se aayegi
+
   const userId = req.user.id;
 
-  // database se post find karo
+
   const post = await Post.findById(postId);
 
-  // check karo user ne already like kiya hai ya nahi
+  
   if (post.likes.includes(userId)) {
     return res.status(400).json({
       message: "You already liked this post"
     });
   }
 
-  // agar like nahi kiya to user id likes array me push karo
+
   post.likes.push(userId);
 
-  // database update save karo
+ 
   await post.save();
 
   res.status(200).json({
