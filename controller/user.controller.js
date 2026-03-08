@@ -6,8 +6,8 @@ exports.registerUser = async (req, res) => {
   try {
     let { username, email, password, role } = req.body;
 
-    if (!username || !email || !password || !role) {
-      return res.send("user are not see here");
+    if (!username || !email || !password) {
+      return res.send("All Fields are required");
     }
     email = email.trim().toLowerCase();
     let existUser = await user.findOne({ email });
@@ -32,7 +32,10 @@ exports.registerUser = async (req, res) => {
       httpOnly: true,
       secure: true,
     });
-    res.status(201).send("now you are registerd successfully");
+    res.status(201).json({
+      msg: "now you are registerd successfully",
+      newuser,
+    });
   } catch (error) {
     res.status(404).send("user is not found");
   }

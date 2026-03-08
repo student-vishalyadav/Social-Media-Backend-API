@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { auth } = require("../middleware/Auth.middleware");
 
-router.use(auth);
+const { auth } = require("../middleware/Auth.middleware");
 
 const {
   createPost,
@@ -13,11 +12,15 @@ const {
   unlikePost,
 } = require("../controller/post.controller");
 
-router.post("/posts" ,  createPost);
-router.get("/posts"  , getPost);
-router.put("/posts/:id" ,  updatePosts);
-router.delete("/posts/:d" , deletePost);
-router.post("/posts/:id/like", auth, likePost);
-router.post("/posts/:id/unlike", auth, unlikePost);
+// protect all routes
+router.use(auth);
+
+router.post("/posts", createPost);
+router.get("/posts", getPost);
+router.put("/posts/:id", updatePosts);
+router.delete("/posts/:id", deletePost);
+
+router.post("/posts/:id/like", likePost);
+router.post("/posts/:id/unlike", unlikePost);
 
 module.exports = router;

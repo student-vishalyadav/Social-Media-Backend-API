@@ -15,13 +15,10 @@ const postSchema = new mongoose.Schema({
     minlength: [20, "Content must be at least 20 char"],
     maxlength: [80, "Content cannot exceed 80 charecters"],
   },
-
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-
-
   likes: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -29,5 +26,4 @@ const postSchema = new mongoose.Schema({
     },
   ],
 });
-
 module.exports = mongoose.model("post", postSchema);

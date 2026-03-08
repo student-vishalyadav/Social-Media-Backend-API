@@ -1,28 +1,29 @@
 require("dotenv").config();
 
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+
 const mongodb = require("./config/db");
 
 const userRouter = require("./Routes/user.routes");
 const postRouter = require("./Routes/post.routes");
 const commentRouter = require("./Routes/comment.routes");
 
-const ratelimit = require("express-rate-limit");
-const Helmet = require("helmet");
-const { default: helmet } = require("helmet");
-
 const app = express();
 
-const limiter = ratelimit({
+app.use(express.json());
+app.use(cookieParser());
+app.use(helmet());
+
+const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  message: "Too many requests from this IP, please try again later.",
+  message: "Too many requests from this IP, please try again later."
 });
 
 app.use(limiter);
-
-app.use(express.json());
-app.use(helmet());
 
 const PORT = process.env.PORT || 3000;
 
